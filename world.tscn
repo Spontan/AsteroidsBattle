@@ -1,0 +1,364 @@
+[gd_scene load_steps=7 format=3 uid="uid://u5tsa603ttky"]
+
+[ext_resource type="Script" path="res://Player1.gd" id="1_6xmmi"]
+[ext_resource type="Script" path="res://Player2.gd" id="2_trnel"]
+[ext_resource type="Script" path="res://Node2D.gd" id="3_5xgmw"]
+
+[sub_resource type="Environment" id="Environment_ppp44"]
+background_mode = 1
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_ednm8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1ail8"]
+radius = 5.0
+
+[node name="World" type="Node2D"]
+
+[node name="Player1" type="CharacterBody2D" parent="."]
+position = Vector2(243, 331)
+motion_mode = 1
+script = ExtResource("1_6xmmi")
+
+[node name="CenterCollision" type="CollisionPolygon2D" parent="Player1"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="CenterPolygon" type="CanvasGroup" parent="Player1"]
+
+[node name="Fill" type="Polygon2D" parent="Player1/CenterPolygon"]
+color = Color(0.337255, 0.505882, 1, 1)
+antialiased = true
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player1/CenterPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 1.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="LeftCollision" type="CollisionPolygon2D" parent="Player1"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="LeftPolygon" type="CanvasGroup" parent="Player1"]
+
+[node name="Fill" type="Polygon2D" parent="Player1/LeftPolygon"]
+color = Color(0.337255, 0.505882, 1, 1)
+antialiased = true
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player1/LeftPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 1.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="UpperLeftCollision" type="CollisionPolygon2D" parent="Player1"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="UpperLeftPolygon" type="CanvasGroup" parent="Player1"]
+
+[node name="Fill" type="Polygon2D" parent="Player1/UpperLeftPolygon"]
+color = Color(0.337255, 0.505882, 1, 1)
+antialiased = true
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player1/UpperLeftPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 1.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="UpperCollision" type="CollisionPolygon2D" parent="Player1"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="UpperPolygon" type="CanvasGroup" parent="Player1"]
+
+[node name="Fill" type="Polygon2D" parent="Player1/UpperPolygon"]
+color = Color(0.337255, 0.505882, 1, 1)
+antialiased = true
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player1/UpperPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 1.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="UpperRightCollision" type="CollisionPolygon2D" parent="Player1"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="UpperRightPolygon" type="CanvasGroup" parent="Player1"]
+
+[node name="Fill" type="Polygon2D" parent="Player1/UpperRightPolygon"]
+color = Color(0.337255, 0.505882, 1, 1)
+antialiased = true
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player1/UpperRightPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 1.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="RightCollision" type="CollisionPolygon2D" parent="Player1"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="RightPolygon" type="CanvasGroup" parent="Player1"]
+
+[node name="Fill" type="Polygon2D" parent="Player1/RightPolygon"]
+color = Color(0.337255, 0.505882, 1, 1)
+antialiased = true
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player1/RightPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 1.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="LowerRightCollision" type="CollisionPolygon2D" parent="Player1"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="LowerRightPolygon" type="CanvasGroup" parent="Player1"]
+
+[node name="Fill" type="Polygon2D" parent="Player1/LowerRightPolygon"]
+color = Color(0.337255, 0.505882, 1, 1)
+antialiased = true
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player1/LowerRightPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 1.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="LowerCollision" type="CollisionPolygon2D" parent="Player1"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="LowerPolygon" type="CanvasGroup" parent="Player1"]
+
+[node name="Fill" type="Polygon2D" parent="Player1/LowerPolygon"]
+color = Color(0.337255, 0.505882, 1, 1)
+antialiased = true
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player1/LowerPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 1.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="LowerLeftCollision" type="CollisionPolygon2D" parent="Player1"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="LowerLeftPolygon" type="CanvasGroup" parent="Player1"]
+
+[node name="Fill" type="Polygon2D" parent="Player1/LowerLeftPolygon"]
+color = Color(0.337255, 0.505882, 1, 1)
+antialiased = true
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player1/LowerLeftPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 1.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="Player2" type="CharacterBody2D" parent="."]
+position = Vector2(907, 331)
+rotation = 3.14159
+motion_mode = 1
+script = ExtResource("2_trnel")
+
+[node name="CenterCollision" type="CollisionPolygon2D" parent="Player2"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="CenterPolygon" type="CanvasGroup" parent="Player2"]
+
+[node name="Fill" type="Polygon2D" parent="Player2/CenterPolygon"]
+color = Color(0.898039, 0.290196, 0.294118, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player2/CenterPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 0.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="LeftCollision" type="CollisionPolygon2D" parent="Player2"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="LeftPolygon" type="CanvasGroup" parent="Player2"]
+
+[node name="Fill" type="Polygon2D" parent="Player2/LeftPolygon"]
+color = Color(0.898039, 0.290196, 0.294118, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player2/LeftPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 0.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="UpperLeftCollision" type="CollisionPolygon2D" parent="Player2"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="UpperLeftPolygon" type="CanvasGroup" parent="Player2"]
+
+[node name="Fill" type="Polygon2D" parent="Player2/UpperLeftPolygon"]
+color = Color(0.898039, 0.290196, 0.294118, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player2/UpperLeftPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 0.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="UpperCollision" type="CollisionPolygon2D" parent="Player2"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="UpperPolygon" type="CanvasGroup" parent="Player2"]
+
+[node name="Fill" type="Polygon2D" parent="Player2/UpperPolygon"]
+color = Color(0.898039, 0.290196, 0.294118, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player2/UpperPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 0.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="UpperRightCollision" type="CollisionPolygon2D" parent="Player2"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="UpperRightPolygon" type="CanvasGroup" parent="Player2"]
+
+[node name="Fill" type="Polygon2D" parent="Player2/UpperRightPolygon"]
+color = Color(0.898039, 0.290196, 0.294118, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player2/UpperRightPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 0.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="RightCollision" type="CollisionPolygon2D" parent="Player2"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="RightPolygon" type="CanvasGroup" parent="Player2"]
+
+[node name="Fill" type="Polygon2D" parent="Player2/RightPolygon"]
+color = Color(0.898039, 0.290196, 0.294118, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player2/RightPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 0.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="LowerRightCollision" type="CollisionPolygon2D" parent="Player2"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="LowerRightPolygon" type="CanvasGroup" parent="Player2"]
+
+[node name="Fill" type="Polygon2D" parent="Player2/LowerRightPolygon"]
+color = Color(0.898039, 0.290196, 0.294118, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player2/LowerRightPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 0.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="LowerCollision" type="CollisionPolygon2D" parent="Player2"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="LowerPolygon" type="CanvasGroup" parent="Player2"]
+
+[node name="Fill" type="Polygon2D" parent="Player2/LowerPolygon"]
+color = Color(0.898039, 0.290196, 0.294118, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player2/LowerPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 0.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="LowerLeftCollision" type="CollisionPolygon2D" parent="Player2"]
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="LowerLeftPolygon" type="CanvasGroup" parent="Player2"]
+
+[node name="Fill" type="Polygon2D" parent="Player2/LowerLeftPolygon"]
+color = Color(0.898039, 0.290196, 0.294118, 1)
+polygon = PackedVector2Array(-20, -20, -20, 20, 40, 0)
+
+[node name="Outline" type="Line2D" parent="Player2/LowerLeftPolygon"]
+points = PackedVector2Array(-20, -20, -20, 20, 40, 0, -20, -20)
+width = 0.5
+default_color = Color(0.643137, 0.686275, 0.764706, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ppp44")
+camera_attributes = SubResource("CameraAttributesPractical_ednm8")
+
+[node name="Bullet" type="Area2D" parent="."]
+position = Vector2(536, 333)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bullet"]
+shape = SubResource("CircleShape2D_1ail8")
+
+[node name="Node2D" type="Node2D" parent="Bullet"]
+visible = false
+script = ExtResource("3_5xgmw")
