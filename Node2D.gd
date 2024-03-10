@@ -10,5 +10,3 @@ func _process(delta):
 	pass
 
 
-func _draw():
-	draw_circle(Vector2(0.0, 0.0), 5.0, Color.GRAY)

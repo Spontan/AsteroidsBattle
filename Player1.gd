@@ -63,12 +63,36 @@ func _physics_process(delta):
 	if Input.is_physical_key_pressed(Key.KEY_SPACE):
 		if shootReleased:
 			shootReleased = false
-			print("test")
+			spawnBullet()
 	else:
 		shootReleased = true
 
-	move_and_slide()
+	var collision_info = move_and_collide(velocity * delta)
+	if collision_info:
+		velocity = velocity.bounce(collision_info.get_normal())
+		print(collision_info.get_collider())
 	
 func updateRotation(rot):
 	for child in get_children():
 		child.rotate(rot)
+
+func spawnBullet():
+	var bulletCollision = CollisionShape2D.new()
+	bulletCollision.set_name("BulletCollision2")
+	var collisionShape = CircleShape2D.new()
+	collisionShape.radius = 5.0
+	bulletCollision.shape = collisionShape
+	
+	var bullet = Area2D.new()
+	bullet.add_child(bulletCollision)
+	bullet.position.x = position.x + viewX*40
+	bullet.position.y = position.y + viewY*40
+
+	bullet.set_script(load("res://Bullet.gd"))
+	print(velocity.x)
+	print(velocity.y)
+	bullet.velocity.x = viewX*300.0 + velocity.x
+	bullet.velocity.y = viewY*300.0 + velocity.y
+	#bullet.set_name("Bullet2")
+	
+	add_sibling(bullet)
