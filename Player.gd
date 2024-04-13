@@ -6,7 +6,6 @@ const ACCELERATION = 10.0
 const TURN_SPEED = 0.1
 const BASE_BULLET_SPEED = 600.0
 const BASE_DAMAGE = 50.0
-const WEIGHT = 1.0
 var particleRng
 var viewX = 1
 var viewY = 0
@@ -14,6 +13,12 @@ var shotReleased = true
 var exhaust
 
 @export var health = 100
+@export var WEIGHT = 1.0
+@export var ELASTICITY = 0.5
+@export var DAMAGE_DEALT_BASE = 1
+@export var DAMAGE_DEALT_MULTIPLIER = 2
+@export var DAMAGE_TAKEN_BASE = 1
+@export var DAMAGE_TAKEN_MULTIPLIER = 0.25
 @export var KEY_TURN_LEFT = Key.KEY_A
 @export var KEY_TURN_RIGHT = Key.KEY_D
 @export var KEY_ACCELERATE = Key.KEY_W
@@ -114,21 +119,27 @@ func spawnBullet():
 
 	add_sibling(Bullet.new(bulletPosition, bulletVelocity))
 	
-func collide(collisionVector, collisionImpact, surfaceNormal, collisionPoint):
-	print(collisionImpact)
-	var collisionShallowness = collisionVector.dot(surfaceNormal)
-	var directionChange = collisionShallowness*collisionImpact*surfaceNormal
-	velocity += directionChange*0.5
-	updateHealth(-getDamageValue(abs(collisionShallowness*collisionImpact)))
-	emitCollisionParticles(collisionVector, surfaceNormal, collisionPoint)
 	
-func getDamageValue(collisionImpact):
-	return BASE_DAMAGE*collisionImpact/BASE_BULLET_SPEED
+func collide(collisionInfo):
+	var collider = collisionInfo["collider"]
+	print(collider)
+	print(collider.DAMAGE_DEALT_BASE)
+	var collisionVector = collider.velocity - velocity
+	var surfaceNormal = collisionInfo["surface"]
+	var collisionShallowness = collisionVector.dot(surfaceNormal)
+	var directionChange = collisionShallowness*collider.WEIGHT*surfaceNormal
+	velocity += directionChange*ELASTICITY
+	updateHealth(-getDamageValue(abs(collisionShallowness), collider.DAMAGE_DEALT_MULTIPLIER*DAMAGE_TAKEN_MULTIPLIER, max(0.1,collider.DAMAGE_DEALT_BASE-DAMAGE_TAKEN_BASE)))
+	emitCollisionParticles(collisionVector, surfaceNormal, collisionInfo["position"])
+	
+#TODO: update damage calculation
+func getDamageValue(collisionShallowness, damageMultiplier, damageBase):
+	return damageMultiplier*collisionShallowness*damageBase
 	
 func emitCollisionParticles(collisionVector, surfaceNormal, collisionPoint):
 	print(collisionPoint)
 	var particlesMaterial = ParticleProcessMaterial.new()
-	particlesMaterial.angle_max = 360#
+	particlesMaterial.angle_max = 360
 	var bouncedVector = collisionVector.bounce(surfaceNormal)
 	particlesMaterial.direction = Vector3(bouncedVector.x, bouncedVector.y, 0)
 	particlesMaterial.spread = 45
@@ -151,17 +162,23 @@ func doMovement(movementVector):
 	var collisionInfo = move_and_collide(movementVector)
 	if collisionInfo:
 		var collider = collisionInfo.get_collider()
-		var collisionVector = velocity - collider.velocity
 		var surfaceNormal = collisionInfo.get_normal()
-		var collisionPoint = collisionInfo.get_position()
-		collider.collide(collisionVector, WEIGHT, -surfaceNormal, collisionPoint)
-		collide(-collisionVector, collider.WEIGHT, surfaceNormal, collisionPoint)
-		doMovement(0.5*collisionInfo.get_remainder().bounce(surfaceNormal))
+		
+		var collisionDictSelf = {"collider": collider, "surface": surfaceNormal, "position": collisionInfo.get_position()}
+		collide(collisionDictSelf)
+		var collisionDictOther = {"collider": self, "surface": -surfaceNormal, "position": collisionInfo.get_position()}
+		
+		collider.collide(collisionDictOther)
+		doMovement(ELASTICITY*collisionInfo.get_remainder().bounce(-surfaceNormal))
+	
 
 func updateHealth(healthChange):
 	health += healthChange
 	if health <= 0:
-		health_depleted.emit(get_parent())
+		destroy()
 	
 func setHealth(newValue):
 	health = newValue
+
+func destroy():
+	health_depleted.emit(get_parent())
