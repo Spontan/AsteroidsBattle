@@ -9,7 +9,7 @@ func _ready():
 	pass
 	
 func _init(position, velocity):
-	super._init(5, 0.1, 0.5, 0.1, )
+	super._init(5, 0.1, 0.5, 0.1, 1, 0, 1)
 
 	var bulletCollision = CollisionShape2D.new()
 	var collisionShape = CircleShape2D.new()

@@ -17,7 +17,7 @@ var exhaust
 @export var ELASTICITY = 0.5
 @export var DAMAGE_DEALT_BASE = 1
 @export var DAMAGE_DEALT_MULTIPLIER = 2
-@export var DAMAGE_TAKEN_BASE = 1
+@export var ABSOLUTE_DAMAGE_REDUCTION = 1
 @export var DAMAGE_TAKEN_MULTIPLIER = 0.25
 @export var KEY_TURN_LEFT = Key.KEY_A
 @export var KEY_TURN_RIGHT = Key.KEY_D
@@ -121,15 +121,17 @@ func spawnBullet():
 	
 	
 func collide(collisionInfo):
+	print(self)
 	var collider = collisionInfo["collider"]
-	print(collider)
-	print(collider.DAMAGE_DEALT_BASE)
+	print(collider.velocity)
 	var collisionVector = collider.velocity - velocity
 	var surfaceNormal = collisionInfo["surface"]
 	var collisionShallowness = collisionVector.dot(surfaceNormal)
-	var directionChange = collisionShallowness*collider.WEIGHT*surfaceNormal
-	velocity += directionChange*ELASTICITY
-	updateHealth(-getDamageValue(abs(collisionShallowness), collider.DAMAGE_DEALT_MULTIPLIER*DAMAGE_TAKEN_MULTIPLIER, max(0.1,collider.DAMAGE_DEALT_BASE-DAMAGE_TAKEN_BASE)))
+	print(str(collisionVector) + " dot " + str(surfaceNormal))
+	var directionChange = collisionShallowness/(collider.velocity.length() + velocity.length())*0.5*(collider.velocity.length()*collider.WEIGHT+velocity.length()*WEIGHT)*surfaceNormal
+	print(str(collisionShallowness) + "/(" + str(collider.velocity.length()) + "+" + str(velocity.length()) + ")*0.5*(" + str(collider.velocity.length()) + "*" + str(collider.WEIGHT) + "+" + str(velocity.length()) + "*" + str(WEIGHT) + ")*" + str(surfaceNormal) + "=" + str(directionChange))
+	changeVelocity(directionChange*ELASTICITY)
+	changeHealth(-getDamageValue(abs(collisionShallowness), collider.DAMAGE_DEALT_MULTIPLIER*DAMAGE_TAKEN_MULTIPLIER, max(0.1,collider.DAMAGE_DEALT_BASE-ABSOLUTE_DAMAGE_REDUCTION)))
 	emitCollisionParticles(collisionVector, surfaceNormal, collisionInfo["position"])
 	
 #TODO: update damage calculation
@@ -172,11 +174,14 @@ func doMovement(movementVector):
 		doMovement(ELASTICITY*collisionInfo.get_remainder().bounce(-surfaceNormal))
 	
 
-func updateHealth(healthChange):
+func changeHealth(healthChange):
 	health += healthChange
 	if health <= 0:
 		destroy()
-	
+
+func changeVelocity(velocityChange):
+	velocity += velocityChange
+
 func setHealth(newValue):
 	health = newValue
 

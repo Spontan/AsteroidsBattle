@@ -1,12 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://u5tsa603ttky"]
+[gd_scene load_steps=7 format=3 uid="uid://u5tsa603ttky"]
 
 [ext_resource type="Script" path="res://level.gd" id="1_2ujm3"]
 [ext_resource type="Script" path="res://Player.gd" id="1_6xmmi"]
 [ext_resource type="Script" path="res://HealthBar.gd" id="2_k1xge"]
+[ext_resource type="Script" path="res://UnmovableCollision.gd" id="4_vrdy3"]
 
 [sub_resource type="Curve" id="Curve_514hh"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kghxr"]
+size = Vector2(534, 20)
 
 [node name="Level1" type="Node2D"]
 script = ExtResource("1_2ujm3")
@@ -431,6 +435,18 @@ polygon = PackedVector2Array(0, 0, -500, 0, -500, 20, 0, 20)
 [node name="Bar" type="Polygon2D" parent="Player2/Player2Health"]
 color = Color(0, 0.662745, 0.0196078, 1)
 polygon = PackedVector2Array(0, 0, -5, 0, -5, 20, 0, 20)
+
+[node name="Wall" type="StaticBody2D" parent="."]
+position = Vector2(592, 332)
+rotation = 1.5708
+script = ExtResource("4_vrdy3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+shape = SubResource("RectangleShape2D_kghxr")
+
+[node name="Polygon2D" type="Polygon2D" parent="Wall"]
+color = Color(0.627451, 0.627451, 0.627451, 1)
+polygon = PackedVector2Array(-267, -10, 267, -10, 267, 10, -267, 10)
 
 [connection signal="health_depleted" from="Player1/Player1Ship" to="." method="on_healthbar_empty"]
 [connection signal="health_depleted" from="Player2/Player2Ship" to="." method="on_healthbar_empty"]

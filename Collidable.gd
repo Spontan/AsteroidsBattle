@@ -5,7 +5,7 @@ var WEIGHT = 1.0
 var ELASTICITY = 0.5
 var DAMAGE_DEALT_BASE = 1
 var DAMAGE_DEALT_MULTIPLIER = 1
-var DAMAGE_TAKEN_BASE = 1
+var ABSOLUTE_DAMAGE_REDUCTION = 0
 var DAMAGE_TAKEN_MULTIPLIER = 1
 var velocity = Vector2.ZERO
 
@@ -13,13 +13,13 @@ var velocity = Vector2.ZERO
 func _ready():
 	pass # Replace with function body.
 
-func _init(health = 100, WEIGHT = 1.0, ELASTICITY = 0.5, DAMAGE_DEALT_BASE = 1, DAMAGE_DEALT_MULTIPLIER = 1,  DAMAGE_TAKEN_BASE = 1,DAMAGE_TAKEN_MULTIPLIER = 1):
+func _init(health = 100, WEIGHT = 1.0, ELASTICITY = 0.5, DAMAGE_DEALT_BASE = 1, DAMAGE_DEALT_MULTIPLIER = 1,  ABSOLUTE_DAMAGE_REDUCTION = 1,DAMAGE_TAKEN_MULTIPLIER = 1):
 	self.health = health
 	self.WEIGHT = WEIGHT
 	self.ELASTICITY = ELASTICITY
 	self.DAMAGE_DEALT_BASE = DAMAGE_DEALT_BASE
 	self.DAMAGE_DEALT_MULTIPLIER = DAMAGE_DEALT_MULTIPLIER
-	self.DAMAGE_TAKEN_BASE = DAMAGE_TAKEN_BASE
+	self.ABSOLUTE_DAMAGE_REDUCTION = ABSOLUTE_DAMAGE_REDUCTION
 	self.DAMAGE_TAKEN_MULTIPLIER = DAMAGE_TAKEN_MULTIPLIER
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -40,22 +40,29 @@ func doMovement(movementVector):
 		doMovement(ELASTICITY*collisionInfo.get_remainder().bounce(-surfaceNormal))
 	
 func collide(collisionInfo):
+	print(self)
 	var collider = collisionInfo["collider"]
+	print(collider.velocity)
 	var collisionVector = collider.velocity - velocity
 	var surfaceNormal = collisionInfo["surface"]
 	var collisionShallowness = collisionVector.dot(surfaceNormal)
-	var directionChange = collisionShallowness*collider.WEIGHT*surfaceNormal
-	velocity += directionChange*ELASTICITY
-	updateHealth(-getDamageValue(abs(collisionShallowness), collider.DAMAGE_DEALT_MULTIPLIER*DAMAGE_TAKEN_MULTIPLIER, max(0.1,collider.DAMAGE_DEALT_BASE-DAMAGE_TAKEN_BASE)))
+	print(str(collisionVector) + " dot " + str(surfaceNormal))
+	var directionChange = collisionShallowness/(collider.velocity.length() + velocity.length())*0.5*(collider.velocity.length()*collider.WEIGHT+velocity.length()*WEIGHT)*surfaceNormal
+	print(str(collisionShallowness) + "/(" + str(collider.velocity.length()) + "+" + str(velocity.length()) + ")*0.5*(" + str(collider.velocity.length()) + "*" + str(collider.WEIGHT) + "+" + str(velocity.length()) + "*" + str(WEIGHT) + ")*" + str(surfaceNormal) + "=" + str(directionChange))
+	changeVelocity(directionChange*ELASTICITY)
+	changeHealth(-getDamageValue(abs(collisionShallowness), collider.DAMAGE_DEALT_MULTIPLIER*DAMAGE_TAKEN_MULTIPLIER, max(0.1,collider.DAMAGE_DEALT_BASE-ABSOLUTE_DAMAGE_REDUCTION)))
 	emitCollisionParticles(collisionVector, surfaceNormal, collisionInfo["position"])
 	
 func getDamageValue(collisionShallowness, damageMultiplier, damageBase):
 	return damageMultiplier*collisionShallowness*damageBase
 	
-func updateHealth(healthChange):
+func changeHealth(healthChange):
 	health += healthChange
 	if health <= 0:
 		destroy()
+
+func changeVelocity(velocityChange):
+	velocity += velocityChange
 		
 func setHealth(newValue):
 	health = newValue
